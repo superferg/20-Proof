@@ -1,0 +1,7 @@
+E:\Development\CSharp Projects\Class Libraries\PlayingCards\PlayingCards\bin\Debug\PlayingCards.dll
+E:\Development\CSharp Projects\Class Libraries\PlayingCards\PlayingCards\bin\Debug\PlayingCards.pdb
+E:\Development\CSharp Projects\Class Libraries\PlayingCards\PlayingCards\obj\Debug\ResolveAssemblyReference.cache
+E:\Development\CSharp Projects\Class Libraries\PlayingCards\PlayingCards\obj\Debug\PlayingCards.dll
+E:\Development\CSharp Projects\Class Libraries\PlayingCards\PlayingCards\obj\Debug\PlayingCards.pdb
+E:\Development\CSharp Projects\Class Libraries\PlayingCards\PlayingCards\obj\Debug\PlayingCards.Images.resources
+E:\Development\CSharp Projects\Class Libraries\PlayingCards\PlayingCards\obj\Debug\PlayingCards.csproj.GenerateResource.Cache

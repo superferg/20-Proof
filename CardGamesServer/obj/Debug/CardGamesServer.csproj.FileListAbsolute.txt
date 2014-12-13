@@ -1,0 +1,31 @@
+E:\Development\CSharp Projects\Class Libraries\PlayingCards\CardGamesServer\obj\Debug\ResolveAssemblyReference.cache
+E:\Development\CSharp Projects\Class Libraries\PlayingCards\CardGamesServer\obj\Debug\CardGamesServer.MainForm.resources
+E:\Development\CSharp Projects\Class Libraries\PlayingCards\CardGamesServer\obj\Debug\CardGamesServer.Properties.Resources.resources
+E:\Development\CSharp Projects\Class Libraries\PlayingCards\CardGamesServer\obj\Debug\CardGamesServer.csproj.GenerateResource.Cache
+E:\Development\CSharp Projects\Class Libraries\PlayingCards\CardGamesServer\bin\Debug\CardGamesServer.exe
+E:\Development\CSharp Projects\Class Libraries\PlayingCards\CardGamesServer\bin\Debug\CardGamesServer.pdb
+E:\Development\CSharp Projects\Class Libraries\PlayingCards\CardGamesServer\bin\Debug\PlayingCards.dll
+E:\Development\CSharp Projects\Class Libraries\PlayingCards\CardGamesServer\bin\Debug\PlayingCards.pdb
+E:\Development\CSharp Projects\Class Libraries\PlayingCards\CardGamesServer\obj\Debug\CardGamesServer.exe
+E:\Development\CSharp Projects\Class Libraries\PlayingCards\CardGamesServer\obj\Debug\CardGamesServer.pdb
+C:\Users\Scott\Desktop\PlayingCards\CardGamesServer\bin\Debug\CardGamesServer.exe
+C:\Users\Scott\Desktop\PlayingCards\CardGamesServer\bin\Debug\CardGamesServer.pdb
+C:\Users\Scott\Desktop\PlayingCards\CardGamesServer\bin\Debug\PlayingCards.dll
+C:\Users\Scott\Desktop\PlayingCards\CardGamesServer\bin\Debug\PlayingCards.pdb
+C:\Users\Scott\Desktop\PlayingCards\CardGamesServer\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Scott\Desktop\PlayingCards\CardGamesServer\obj\Debug\CardGamesServer.MainForm.resources
+C:\Users\Scott\Desktop\PlayingCards\CardGamesServer\obj\Debug\CardGamesServer.Properties.Resources.resources
+C:\Users\Scott\Desktop\PlayingCards\CardGamesServer\obj\Debug\CardGamesServer.csproj.GenerateResource.Cache
+C:\Users\Scott\Desktop\PlayingCards\CardGamesServer\obj\Debug\CardGamesServer.exe
+C:\Users\Scott\Desktop\PlayingCards\CardGamesServer\obj\Debug\CardGamesServer.pdb
+D:\Scott\Downloads\PlayingCards\CardGamesServer\bin\Debug\CardGamesServer.exe
+D:\Scott\Downloads\PlayingCards\CardGamesServer\bin\Debug\CardGamesServer.pdb
+D:\Scott\Downloads\PlayingCards\CardGamesServer\bin\Debug\PlayingCards.dll
+D:\Scott\Downloads\PlayingCards\CardGamesServer\bin\Debug\PlayingCards.pdb
+D:\Scott\Downloads\PlayingCards\CardGamesServer\obj\Debug\CardGamesServer.MainForm.resources
+D:\Scott\Downloads\PlayingCards\CardGamesServer\obj\Debug\CardGamesServer.Properties.Resources.resources
+D:\Scott\Downloads\PlayingCards\CardGamesServer\obj\Debug\CardGamesServer.csproj.GenerateResource.Cache
+D:\Scott\Downloads\PlayingCards\CardGamesServer\obj\Debug\CardGamesServer.exe
+D:\Scott\Downloads\PlayingCards\CardGamesServer\obj\Debug\CardGamesServer.pdb
+D:\Scott\Downloads\PlayingCards\CardGamesServer\obj\Debug\CardGamesServer.csprojResolveAssemblyReference.cache
+D:\Scott\Downloads\PlayingCards\CardGamesServer\bin\Debug\CardGamesServer.exe.config

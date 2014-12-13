@@ -1,0 +1,33 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+# SharpDevelop 5.0
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CardGames", "CardGames\CardGames.csproj", "{A79D114F-4215-4282-A733-96EAE86FBAC6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CardGamesServer", "CardGamesServer\CardGamesServer.csproj", "{3F4E5020-F870-4560-8E35-50A3C181068E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlayingCardsLibrary", "PlayingCards\PlayingCardsLibrary.csproj", "{068BE20E-F8E7-47B1-B21D-3E9376DB916B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A79D114F-4215-4282-A733-96EAE86FBAC6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A79D114F-4215-4282-A733-96EAE86FBAC6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A79D114F-4215-4282-A733-96EAE86FBAC6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A79D114F-4215-4282-A733-96EAE86FBAC6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3F4E5020-F870-4560-8E35-50A3C181068E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3F4E5020-F870-4560-8E35-50A3C181068E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3F4E5020-F870-4560-8E35-50A3C181068E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3F4E5020-F870-4560-8E35-50A3C181068E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{068BE20E-F8E7-47B1-B21D-3E9376DB916B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{068BE20E-F8E7-47B1-B21D-3E9376DB916B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{068BE20E-F8E7-47B1-B21D-3E9376DB916B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{068BE20E-F8E7-47B1-B21D-3E9376DB916B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
