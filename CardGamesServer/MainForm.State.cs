@@ -1,12 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Windows.Forms;
 using PlayingCards;
 using System.Threading;
 
@@ -14,36 +9,12 @@ namespace CardGamesServer
 {
     partial class MainForm
     {
-    	public enum States
-    	{
-    		Startup,
-    		Teams,
-    		Dealer,
-    		Game,
-    		Play,
-    		GameOver
-    	}
-    	
-    	public enum Games
-    	{
-    		TableTalk,
-    		PassLeftAndLose,
-    		SyncUp,
-    		TradeIn,
-    		Fusion,
-    		PlusMinus,
-    		CyclingTrump,
-    		Loaner,
-    		Poker,
-    		War
-    	}
-    	
     	public int TurnIndex = 0, GameSelected = 0;
     	public int DealerPosition;
     	private States state = States.Startup;
     	private Action[] StateFunc, Game;
     	public int[] DiceRollValue = new int[4];
-    	private List<int> DealerIndex = new List<int>{ 0, 1, 2, 3};
+    	private List<int> DealerIndex = new List<int>{0, 1, 2, 3};
     	private List<int> LastGames = new List<int>();
     	private int RoundIndex = 0;
     	
@@ -59,8 +30,7 @@ namespace CardGamesServer
     	
     	public void InitializeStates()
     	{
-    		//Game = new Action[10]{PlayTableTalk, PlayPoker, PlayPoker, PlayPoker, PlayPoker, PlayPoker, PlayPoker, PlayPoker, PlayPoker, PlayWar};
-    		Game = new Action[10]{PlayTableTalk, PlayTableTalk, PlayTableTalk, PlayTableTalk, PlayTableTalk, PlayTableTalk, PlayTableTalk, PlayTableTalk, PlayTableTalk, PlayTableTalk};
+    		Game = new Action[10]{PlayTableTalk, PlayPassLeft, PlaySyncUp, PlayTradeIn, PlayFusion, PlayPlusMinus, PlayCyclingTrump, PlayBMB, PlayPoker, PlayWar};
     		
     		StateFunc = new Action[] {null, TeamFunc, DealFunc, GameFunc, PlayFunc, GameOver};
     	}
@@ -134,6 +104,7 @@ namespace CardGamesServer
     		switch(TurnIndex)
     		{
     			case 0:
+    				BroadcastAll(msg_ENABLEREADY, SERVER, "False");
     				Thread.Sleep(1000);
     				BroadcastAll(msg_INFO, SERVER, "Roll to determine teams.");
     				Thread.Sleep(500);

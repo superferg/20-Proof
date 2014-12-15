@@ -62,7 +62,7 @@
         	this.textBox1.Name = "textBox1";
         	this.textBox1.Size = new System.Drawing.Size(184, 20);
         	this.textBox1.TabIndex = 2;
-        	this.textBox1.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.KeyPressFunction);
+        	this.textBox1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.KeyPressFunction);
         	// 
         	// label1
         	// 
@@ -88,7 +88,7 @@
         	this.txtName.Name = "txtName";
         	this.txtName.Size = new System.Drawing.Size(138, 20);
         	this.txtName.TabIndex = 1;
-        	this.txtName.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.KeyPressFunction);
+        	this.txtName.KeyDown += new System.Windows.Forms.KeyEventHandler(this.KeyPressFunction);
         	// 
         	// ConnectForm
         	// 
@@ -107,7 +107,7 @@
         	this.Name = "ConnectForm";
         	this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
         	this.Text = "Establish Remote Connection";
-        	this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.KeyPressFunction);
+        	this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.KeyPressFunction);
         	this.ResumeLayout(false);
         	this.PerformLayout();
 

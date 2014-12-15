@@ -9,87 +9,44 @@ namespace CardGamesServer
 {
     partial class MainForm
     {
-    	public void PlayTableTalk()
+    	public void PlayCyclingTrump()
     	{
     		switch(TurnIndex)
     		{
     			case 0:
     				BroadcastAll(msg_SETMYHAND, SERVER, FacingSides.FaceUp.ToString());
-		    		BroadcastAll(msg_SETOTHERHANDS, SERVER, FacingSides.FaceDown.ToString());
-		    		BroadcastAll(msg_SETTABLEHANDS, SERVER, FacingSides.FaceUp.ToString());
-    		
+    				BroadcastAll(msg_SETOTHERHANDS, SERVER, FacingSides.FaceDown.ToString());
+    				BroadcastAll(msg_SETTABLEHANDS, SERVER, FacingSides.FaceUp.ToString());
+    				
     				Shuffle();
     				DealCards(true);
     				
-    				Card card = dealer.Deck.PeekTopCard();
+    				Card card = dealer.Deck.GetTopCard();
     				BroadcastAll(msg_SENDDECK, SERVER, clients[DealerPosition].Id + ":" + card.TextValue);
+    				dealer.Deck.Cards.Insert(0, card);
+    				TrumpSuit = card.Suit;
     				
     				Thread.Sleep(500);
-    				foreach(Client cl in clients)
-    				{
-    					cl.IsReady = false;
-    				}
-    				
-    				BroadcastAll(msg_INFO, SERVER, "Select 'Ready' to trade hands with your partner.");
     				BroadcastAll(msg_ENABLEHAND, SERVER, "False");
     				BroadcastAll(msg_ENABLETABLEHAND, SERVER, "False");
-    				BroadcastAll(msg_ENABLEREADY, SERVER, "True");
+    				
+    				TableIndex = clients[DealerPosition].TableIndex + 1;
+    				
+    				if(TableIndex > 3)
+    					TableIndex -= 4;
+    				
+    				WinnerIndex = clients.FindIndex(item => item.TableIndex == TableIndex);
+    				BroadcastAll(msg_INFO, SERVER, TrumpSuit + " is trump.");
+    				BroadcastAll(msg_TURNUPDATE, SERVER, clients[clients.FindIndex(item => item.TableIndex == TableIndex)].Id);
+    				BroadcastTo(msg_EUCHREENABLE, SERVER, clients[clients.FindIndex(item => item.TableIndex == TableIndex)].Id, "True");
     				TurnIndex++;
     				break;
     				
     			case 1:
-    				if(clients[0].IsReady == true && clients[1].IsReady == true &&
-    				   clients[2].IsReady == true && clients[3].IsReady == true)
-    				{
-    					BroadcastAll(msg_ENABLEREADY, SERVER, "False");
-    					
-    					int Team1_1 = clients.FindIndex(item => item.Team == Teams.TeamOne);
-    					int Team1_2 = clients.FindLastIndex(item => item.Team == Teams.TeamOne);
-    					int Team2_1 = clients.FindIndex(item => item.Team == Teams.TeamTwo);
-    					int Team2_2 = clients.FindLastIndex(item => item.Team == Teams.TeamTwo);
-    					
-    					clients[Team1_2].Hand = clients[Team1_1].Hand.Exchange(clients[Team1_2].Hand);
-    					clients[Team2_2].Hand = clients[Team2_1].Hand.Exchange(clients[Team2_2].Hand);
-    					
-    					foreach(Client c in clients)
-    					{
-    						SendHandMessage(c, SERVER, false);
-    					}
-    					
-    					Thread.Sleep(2000);
-			    		TableIndex = clients[DealerPosition].TableIndex + 1;
-			        	
-			        	if(TableIndex > 3)
-			        		TableIndex -= 4;
-			        	
-			        	BroadcastAll(msg_CALLTRUMP, SERVER, clients[clients.FindIndex(item => item.TableIndex == TableIndex)].Id + ":" + dealer.Deck.PeekTopCard());
-			        	TurnIndex++;
-    				}
+    				PlayTrick(2);
     				break;
     				
     			case 2:
-    				CallTrumpRound1();
-    				if(PickedUp == true)
-    				{
-    					TurnIndex = 6;
-    				}
-    				break;
-    				
-    			case 3:
-    				CallTrumpRound2();
-    				if(PickedUp == true)
-    				{
-    					TurnIndex = 4;
-    					BroadcastAll(msg_TURNUPDATE, SERVER, clients[clients.FindIndex(item => item.TableIndex == TableIndex)].Id);
-    					BroadcastTo(msg_EUCHREENABLE, SERVER, clients[clients.FindIndex(item => item.TableIndex == TableIndex)].Id, "True");
-    				}
-    				break;
-    				
-    			case 4:
-    				PlayTrick(5);
-    				break;
-    				
-    			case 5:
     				double[] Value = EuchreEvaluate();
     				WinnerIndex = Value.ToList().IndexOf(Value.Max());
     				
@@ -138,6 +95,7 @@ namespace CardGamesServer
     					BroadcastAll(msg_SETSCORE, SERVER, TeamScore[0] + ":" + TeamScore[1]);
     					
     					Thread.Sleep(2000);
+    					BroadcastAll(msg_HIDEDECK, SERVER, clients[DealerPosition].Id);
     					BroadcastAll(msg_RESETTABLE, SERVER, "");
     					ClearTable();
     					Array.Clear(TrickCount, 0, TrickCount.Length);
@@ -158,15 +116,16 @@ namespace CardGamesServer
     				}
     				else
     				{
+    					Card crd = dealer.Deck.GetTopCard();
+    					BroadcastAll(msg_SENDDECK, SERVER, clients[DealerPosition].Id + ":" + crd.TextValue);
+    					TrumpSuit = crd.Suit;
+    					BroadcastAll(msg_INFO, SERVER, TrumpSuit + " is trump.");
+    					
     					TableIndex = clients[WinnerIndex].TableIndex;
     					BroadcastAll(msg_TURNUPDATE, SERVER, clients[clients.FindIndex(item => item.TableIndex == TableIndex)].Id);
     					BroadcastTo(msg_EUCHREENABLE, SERVER, clients[clients.FindIndex(item => item.TableIndex == TableIndex)].Id, "True");
-    					TurnIndex = 4;
+    					TurnIndex = 1;
     				}
-    				break;
-    				
-    			case 6:
-    				PickUpCard(4);
     				break;
     				
     			default:

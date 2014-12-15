@@ -52,6 +52,7 @@
     <Compile Include="Dealer.cs" />
     <Compile Include="Deck.cs" />
     <Compile Include="Dice.cs" />
+    <Compile Include="GameConfig.cs" />
     <Compile Include="Hand.cs" />
     <Compile Include="ImageHelper.cs" />
     <Compile Include="Images.Designer.cs">

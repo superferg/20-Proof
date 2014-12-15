@@ -35,6 +35,95 @@ namespace CardGamesServer
     		}
     	}
     	
+    	public void CallTrumpRound1()
+    	{
+    		if(PickedUp == true)
+    		{
+    			AssignTrump(true);
+    		}
+    		else
+    		{
+    			BroadcastAll(msg_INFO, SERVER, clients[clients.FindIndex(item => item.TableIndex == TableIndex)].Name + " passed.");
+    			Thread.Sleep(1000);
+    			TableIndex++;
+    			
+    			if(TableIndex > 3)
+    				TableIndex -= 4;
+    			
+    			RoundIndex++;
+    			if(RoundIndex >= 4)
+    			{
+    				RoundIndex = 0;
+    				TurnIndex++;
+    				
+    				BroadcastAll(msg_HIDEDECK, SERVER, clients[DealerPosition].Id);
+    				BroadcastAll(msg_CALLTRUMP2, SERVER, clients[clients.FindIndex(item => item.TableIndex == TableIndex)].Id + ":" + dealer.Deck.PeekTopCard().Suit);
+    			}
+    			else
+    			{
+    				BroadcastAll(msg_CALLTRUMP, SERVER, clients[clients.FindIndex(item => item.TableIndex == TableIndex)].Id + ":" + dealer.Deck.PeekTopCard());
+    			}
+    		}
+    	}
+    	
+    	public void CallTrumpRound2()
+    	{
+    		if(PickedUp == true)
+    		{
+    			AssignTrump(false);
+    		}
+    		else
+    		{
+    			BroadcastAll(msg_INFO, SERVER, clients[clients.FindIndex(item => item.TableIndex == TableIndex)].Name + " passed.");
+    			Thread.Sleep(1000);
+    			TableIndex++;
+    			
+    			if(TableIndex > 3)
+    				TableIndex -= 4;
+    			
+    			BroadcastAll(msg_CALLTRUMP2, SERVER, clients[clients.FindIndex(item => item.TableIndex == TableIndex)].Id + ":" + dealer.Deck.PeekTopCard().Suit);
+    		}
+    	}
+    	
+    	public void PlayTrick(int ScoreIndex)
+    	{
+    		TableIndex++;
+    		if(TableIndex > 3)
+    			TableIndex -= 4;
+    		
+    		RoundIndex++;
+    		if(RoundIndex >= 4)
+    		{
+    			RoundIndex = 0;
+    			TurnIndex = ScoreIndex;
+    			StateFunc[(int)State]();
+    		}
+    		else
+    		{
+    			BroadcastAll(msg_TURNUPDATE, SERVER, clients[clients.FindIndex(item => item.TableIndex == TableIndex)].Id);
+    			BroadcastTo(msg_EUCHREENABLE, SERVER, clients[clients.FindIndex(item => item.TableIndex == TableIndex)].Id, "True");
+    		}
+    	}
+    	
+    	public void PickUpCard(int PlayIndex)
+    	{
+    		Thread.Sleep(1000);
+    		BroadcastAll(msg_HIDEDECK, SERVER, clients[DealerPosition].Id);
+    		
+    		clients[DealerPosition].Hand.Cards.Add(dealer.Deck.GetTopCard());
+    		clients[DealerPosition].Hand.Sort();
+    		SendHandMessage(clients[DealerPosition], SERVER, false);
+    		
+    		BroadcastAll(msg_CLEARTABLEHAND, SERVER, clients[DealerPosition].Id);
+    		BroadcastAll(msg_SHOWTABLEHAND, SERVER, clients[DealerPosition].Id);
+    		
+    		tableHand[DealerPosition].Cards.Clear();
+    		
+    		TurnIndex = PlayIndex;
+    		BroadcastAll(msg_TURNUPDATE, SERVER, clients[clients.FindIndex(item => item.TableIndex == TableIndex)].Id);
+    		BroadcastTo(msg_EUCHREENABLE, SERVER, clients[clients.FindIndex(item => item.TableIndex == TableIndex)].Id, "True");
+    	}
+    	
     	public void AssignTrump(bool suit)
     	{
     		if(suit) TrumpSuit = dealer.Deck.PeekTopCard().Suit;
@@ -65,9 +154,9 @@ namespace CardGamesServer
     		}
     	}
     	
-    	public int[] EuchreEvaluate()
+    	public double[] EuchreEvaluate()
     	{
-    		int[] Value = new int[4];
+    		double[] Value = new double[4];
     		
     		for(int i=0; i < 4; i++)
     		{
@@ -79,8 +168,13 @@ namespace CardGamesServer
     					Value[i] = 15;
     				else if(tableHand[i].Cards[0].Value >= CardValues.Queen)
     					Value[i] = (int)tableHand[i].Cards[0].Value + 1;
-    				else 
+    				else if(tableHand[i].Cards[0].Value >= CardValues.Nine)
     					Value[i] = (int)tableHand[i].Cards[0].Value + 2;
+    				else
+    				{
+    					Value[i] = 14.5 + ((int)tableHand[i].Cards[0].Value) * 0.5;
+    					continue;
+    				}
     				
     				Value[i] *= 2;
     			}

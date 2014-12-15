@@ -818,7 +818,7 @@
         	// 
         	// trumpBox
         	// 
-        	this.trumpBox.Location = new System.Drawing.Point(777, 538);
+        	this.trumpBox.Location = new System.Drawing.Point(788, 538);
         	this.trumpBox.Name = "trumpBox";
         	this.trumpBox.Size = new System.Drawing.Size(83, 83);
         	this.trumpBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;

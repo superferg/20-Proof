@@ -83,6 +83,7 @@ namespace CardGamesServer
         private const string msg_EUCHREENABLE = "EUCHREENABLE";
         private const string msg_SETTRUMP = "SETTRUMP";
         private const string msg_SETWINNERINDEX = "SETWINNERINDEX";
+        private const string msg_ROLLTRADEIN = "ROLLTRADEIN";
         #endregion
 
         public MainForm()
@@ -122,7 +123,7 @@ namespace CardGamesServer
                 dealer.InitializePokerDeck(CardValues.Nine, CardValues.Ace);
                 dealer.Shuffle();
 
-                textBox1.SelectedText += CRLF + "Waiting for connections..";
+                textBox1.AppendText(CRLF + "Waiting for connections..");
 
                 listener = new TcpListener(System.Net.IPAddress.Any, 4994);
                 listener.Start();
@@ -137,8 +138,8 @@ namespace CardGamesServer
                 BroadcastAll(msg_SERVERSHUTDOWN, SERVER, "");
                 ShutdownClientSockets();
 
-                textBox1.SelectedText += clients.Count.ToString() + " clients." + CRLF;
-                textBox1.SelectedText += "Server stopped." + CRLF;
+                textBox1.AppendText(clients.Count.ToString() + " clients." + CRLF);
+                textBox1.AppendText("Server stopped." + CRLF);
                 button1.Text = "Start";
             }
         }
@@ -163,7 +164,7 @@ namespace CardGamesServer
                         listener.Stop();
 
                         BroadcastTo(msg_YOURID, SERVER, client.Id, client.Id);
-                        textBox1.SelectedText += clients.Count.ToString() + " clients." + CRLF;
+                        textBox1.AppendText(clients.Count.ToString() + " clients." + CRLF);
 
                         listener.Start();
                     }
@@ -208,10 +209,7 @@ namespace CardGamesServer
                                 break;
                             }
                         case "CHAT":
-                            if (parsedMsg[2].ToUpper() == "ALL")
-                                PublicChat(clientId, parsedMsg[3]);
-                            else
-                                PrivateChat(clientId, parsedMsg[2], parsedMsg[3]);
+                            BroadcastAll(msg_CHAT, clientId, parsedMsg[2]);
                             break;
                         case "BYE":
                             ShutdownClientSocket(clientId);
@@ -231,7 +229,8 @@ namespace CardGamesServer
                                 BroadcastAll(msg_HANDTOTABLE, clientId, parsedMsg[2]);
                                 BroadcastTo(msg_EUCHREENABLE, SERVER, clientId, "False");
                                 
-                                if(State == States.Play && GameSelected == (int)Games.Poker)
+                                if((State == States.Play && GameSelected == (int)Games.Poker) ||
+                                  (State == States.Play && GameSelected == (int)Games.TradeIn && TurnIndex == 8))
                                 {
                                 	SendHandMessage(clients[index], clientId, true);
                                 }
@@ -389,16 +388,6 @@ namespace CardGamesServer
                 c.SendMessage(fromClientId + ":" + msgType + ":" + msg + CRLF);
         }
 
-        private void PublicChat(string fromClientId, string msg)
-        {
-            BroadcastAll(msg_CHAT, fromClientId, msg);
-        }
-
-        private void PrivateChat(string fromClientId, string toClientId, string msg)
-        {
-            BroadcastTo(msg_PRIVCHAT, fromClientId, toClientId, msg);
-        }
-
         private void ShutdownClientSockets()
         {
             for (int x = clients.Count - 1; x >= 0; x--)
@@ -418,7 +407,7 @@ namespace CardGamesServer
 
             BroadcastAll(msg_CLIENTDISCONNECTED, SERVER, clientId);
 
-            textBox1.SelectedText += clients.Count.ToString() + " clients." + CRLF;
+            textBox1.AppendText(clients.Count.ToString() + " clients." + CRLF);
         }
 
         private void client_OnClientReceiveData(Client client, ClientEventArgs args)
@@ -434,7 +423,7 @@ namespace CardGamesServer
             clients.Remove(c);
             BroadcastAll(msg_CLIENTDISCONNECTED, SERVER, client.Id);
 
-            textBox1.SelectedText += clients.Count.ToString() + " clients." + CRLF;
+            textBox1.AppendText(clients.Count.ToString() + " clients." + CRLF);
 
         }
 

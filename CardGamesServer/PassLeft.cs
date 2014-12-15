@@ -9,7 +9,7 @@ namespace CardGamesServer
 {
     partial class MainForm
     {
-    	public void PlayTableTalk()
+    	public void PlayPassLeft()
     	{
     		switch(TurnIndex)
     		{
@@ -30,11 +30,16 @@ namespace CardGamesServer
     					cl.IsReady = false;
     				}
     				
-    				BroadcastAll(msg_INFO, SERVER, "Select 'Ready' to trade hands with your partner.");
     				BroadcastAll(msg_ENABLEHAND, SERVER, "False");
     				BroadcastAll(msg_ENABLETABLEHAND, SERVER, "False");
-    				BroadcastAll(msg_ENABLEREADY, SERVER, "True");
-    				TurnIndex++;
+    				
+    				TableIndex = clients[DealerPosition].TableIndex + 1;
+    				
+    				if(TableIndex > 3)
+    					TableIndex -= 4;
+    				
+    				BroadcastAll(msg_CALLTRUMP, SERVER, clients[clients.FindIndex(item => item.TableIndex == TableIndex)].Id + ":" + dealer.Deck.PeekTopCard());
+    				TurnIndex = 2;
     				break;
     				
     			case 1:
@@ -43,13 +48,14 @@ namespace CardGamesServer
     				{
     					BroadcastAll(msg_ENABLEREADY, SERVER, "False");
     					
-    					int Team1_1 = clients.FindIndex(item => item.Team == Teams.TeamOne);
-    					int Team1_2 = clients.FindLastIndex(item => item.Team == Teams.TeamOne);
-    					int Team2_1 = clients.FindIndex(item => item.Team == Teams.TeamTwo);
-    					int Team2_2 = clients.FindLastIndex(item => item.Team == Teams.TeamTwo);
+    					int Team1_1 = clients.FindIndex(item => item.TableIndex == 0);
+    					int Team1_2 = clients.FindIndex(item => item.TableIndex == 2);
+    					int Team2_1 = clients.FindIndex(item => item.TableIndex == 1);
+    					int Team2_2 = clients.FindIndex(item => item.TableIndex == 3);
     					
+    					clients[Team2_1].Hand = clients[Team1_1].Hand.Exchange(clients[Team2_1].Hand);
     					clients[Team1_2].Hand = clients[Team1_1].Hand.Exchange(clients[Team1_2].Hand);
-    					clients[Team2_2].Hand = clients[Team2_1].Hand.Exchange(clients[Team2_2].Hand);
+    					clients[Team2_2].Hand = clients[Team1_1].Hand.Exchange(clients[Team2_2].Hand);
     					
     					foreach(Client c in clients)
     					{
@@ -62,8 +68,9 @@ namespace CardGamesServer
 			        	if(TableIndex > 3)
 			        		TableIndex -= 4;
 			        	
-			        	BroadcastAll(msg_CALLTRUMP, SERVER, clients[clients.FindIndex(item => item.TableIndex == TableIndex)].Id + ":" + dealer.Deck.PeekTopCard());
-			        	TurnIndex++;
+			        	BroadcastAll(msg_TURNUPDATE, SERVER, clients[clients.FindIndex(item => item.TableIndex == TableIndex)].Id);
+    					BroadcastTo(msg_EUCHREENABLE, SERVER, clients[clients.FindIndex(item => item.TableIndex == TableIndex)].Id, "True");
+			        	TurnIndex = 4;
     				}
     				break;
     				
@@ -79,9 +86,9 @@ namespace CardGamesServer
     				CallTrumpRound2();
     				if(PickedUp == true)
     				{
-    					TurnIndex = 4;
-    					BroadcastAll(msg_TURNUPDATE, SERVER, clients[clients.FindIndex(item => item.TableIndex == TableIndex)].Id);
-    					BroadcastTo(msg_EUCHREENABLE, SERVER, clients[clients.FindIndex(item => item.TableIndex == TableIndex)].Id, "True");
+    					TurnIndex = 1;
+    					BroadcastAll(msg_INFO, SERVER, "Select 'Ready' to pass your hand left.");
+    					BroadcastAll(msg_ENABLEREADY, SERVER, "True");
     				}
     				break;
     				
@@ -108,7 +115,7 @@ namespace CardGamesServer
     				
     				if(clients[0].Hand.NumberOfCards == 0)
     				{
-    					if(TrickCount[(int)Teams.TeamOne] > TrickCount[(int)Teams.TeamTwo])
+    					if(TrickCount[(int)Teams.TeamTwo] > TrickCount[(int)Teams.TeamOne])
     					{
     						TeamScore[(int)Teams.TeamOne]++;
     						
@@ -166,7 +173,21 @@ namespace CardGamesServer
     				break;
     				
     			case 6:
-    				PickUpCard(4);
+    				Thread.Sleep(1000);
+    				BroadcastAll(msg_HIDEDECK, SERVER, clients[DealerPosition].Id);
+    				
+    				clients[DealerPosition].Hand.Cards.Add(dealer.Deck.GetTopCard());
+    				clients[DealerPosition].Hand.Sort();
+    				SendHandMessage(clients[DealerPosition], SERVER, false);
+    				
+    				BroadcastAll(msg_CLEARTABLEHAND, SERVER, clients[DealerPosition].Id);
+    				BroadcastAll(msg_SHOWTABLEHAND, SERVER, clients[DealerPosition].Id);
+    				
+    				tableHand[DealerPosition].Cards.Clear();
+    				
+    				TurnIndex = 1;
+    				BroadcastAll(msg_INFO, SERVER, "Select 'Ready' to pass your hand left.");
+    				BroadcastAll(msg_ENABLEREADY, SERVER, "True");
     				break;
     				
     			default:

@@ -19,3 +19,10 @@ D:\Scott\Downloads\PlayingCards\PlayingCards\obj\Debug\PlayingCardsLibrary.cspro
 D:\Scott\Downloads\PlayingCards\PlayingCards\obj\Debug\PlayingCards.dll
 D:\Scott\Downloads\PlayingCards\PlayingCards\obj\Debug\PlayingCards.pdb
 D:\Scott\Downloads\PlayingCards\PlayingCards\obj\Debug\PlayingCardsLibrary.csprojResolveAssemblyReference.cache
+D:\Scott\Downloads\20-Proof\PlayingCards\bin\Debug\PlayingCards.dll
+D:\Scott\Downloads\20-Proof\PlayingCards\bin\Debug\PlayingCards.pdb
+D:\Scott\Downloads\20-Proof\PlayingCards\obj\Debug\PlayingCardsLibrary.csprojResolveAssemblyReference.cache
+D:\Scott\Downloads\20-Proof\PlayingCards\obj\Debug\PlayingCards.Images.resources
+D:\Scott\Downloads\20-Proof\PlayingCards\obj\Debug\PlayingCardsLibrary.csproj.GenerateResource.Cache
+D:\Scott\Downloads\20-Proof\PlayingCards\obj\Debug\PlayingCards.dll
+D:\Scott\Downloads\20-Proof\PlayingCards\obj\Debug\PlayingCards.pdb

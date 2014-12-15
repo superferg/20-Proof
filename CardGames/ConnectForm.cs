@@ -45,11 +45,14 @@ namespace CardGames
             this.Close();
         }
         
-        private void KeyPressFunction(object sender, KeyPressEventArgs e)
+        private void KeyPressFunction(object sender, KeyEventArgs e)
         {
-        	if (e.KeyChar == (char)Keys.Return)
+        	if (e.KeyCode == Keys.Return)
 	        {
 	            button1.PerformClick();
+	            
+	            e.Handled = true;
+        		e.SuppressKeyPress = true;
 	        }
         }
     }

@@ -6,30 +6,6 @@ namespace CardGames
 {
     partial class MainForm
     {
-    	public enum States
-    	{
-    		Startup,
-    		Teams,
-    		Dealer,
-    		Game,
-    		Play,
-    		GameOver
-    	}
-    	
-    	public enum Games
-    	{
-    		TableTalk,
-    		PassLeftAndLose,
-    		SyncUp,
-    		TradeIn,
-    		Fusion,
-    		PlusMinus,
-    		CyclingTrump,
-    		Loaner,
-    		Poker,
-    		War
-    	}
-    	
     	public States state = States.Startup;
     	public Games GameType = Games.TableTalk;
     	public CardSuits TrumpSuit;
@@ -94,14 +70,15 @@ namespace CardGames
     	{
     		for(int i=0; i < players[clientIndex].Hand.NumberOfCards; i++)
     		{
-    			if(players[clientIndex].Hand.Cards[i].Value >= CardValues.Nine)
+    			/*if(players[clientIndex].Hand.Cards[i].Value >= CardValues.Nine)
     			{
     				HandBox[0,i].Image = ImageHelper.ChangeImageOpacity(HandBox[0,i].Image, 0.82);
     			}
     			else
     			{
     				HandBox[0,i].Image = ImageHelper.ChangeImageOpacity(HandBox[0,i].Image, 1.0);
-    			}
+    			}*/
+    			HandBox[0,i].Image = ImageHelper.ChangeImageOpacity(HandBox[0,i].Image, 1.0);
     		}
     	}
     		

@@ -65,13 +65,13 @@ namespace PlayingCards
             bitmap1.RotateFlip(RotateFlipType.Rotate90FlipNone);
             rotatedbackImage = bitmap1;
             
-            if(this.Value >= CardValues.Nine)
+            /*if(this.Value >= CardValues.Nine)
             {
             	faceImage = ImageHelper.ChangeImageOpacity(faceImage, 0.82);
             	backImage = ImageHelper.ChangeImageOpacity(backImage, 0.82);
             	rotatedfaceImage = ImageHelper.ChangeImageOpacity(rotatedfaceImage, 0.82);
             	rotatedbackImage = ImageHelper.ChangeImageOpacity(rotatedbackImage, 0.82);
-            }
+            }*/
         }
 
         public CardSuits Suit{ get; set; }

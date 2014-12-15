@@ -29,3 +29,14 @@ D:\Scott\Downloads\PlayingCards\CardGamesServer\obj\Debug\CardGamesServer.exe
 D:\Scott\Downloads\PlayingCards\CardGamesServer\obj\Debug\CardGamesServer.pdb
 D:\Scott\Downloads\PlayingCards\CardGamesServer\obj\Debug\CardGamesServer.csprojResolveAssemblyReference.cache
 D:\Scott\Downloads\PlayingCards\CardGamesServer\bin\Debug\CardGamesServer.exe.config
+D:\Scott\Downloads\20-Proof\CardGamesServer\bin\Debug\CardGamesServer.exe.config
+D:\Scott\Downloads\20-Proof\CardGamesServer\bin\Debug\CardGamesServer.exe
+D:\Scott\Downloads\20-Proof\CardGamesServer\bin\Debug\CardGamesServer.pdb
+D:\Scott\Downloads\20-Proof\CardGamesServer\bin\Debug\PlayingCards.dll
+D:\Scott\Downloads\20-Proof\CardGamesServer\bin\Debug\PlayingCards.pdb
+D:\Scott\Downloads\20-Proof\CardGamesServer\obj\Debug\CardGamesServer.csprojResolveAssemblyReference.cache
+D:\Scott\Downloads\20-Proof\CardGamesServer\obj\Debug\CardGamesServer.MainForm.resources
+D:\Scott\Downloads\20-Proof\CardGamesServer\obj\Debug\CardGamesServer.Properties.Resources.resources
+D:\Scott\Downloads\20-Proof\CardGamesServer\obj\Debug\CardGamesServer.csproj.GenerateResource.Cache
+D:\Scott\Downloads\20-Proof\CardGamesServer\obj\Debug\CardGamesServer.exe
+D:\Scott\Downloads\20-Proof\CardGamesServer\obj\Debug\CardGamesServer.pdb

@@ -374,11 +374,14 @@ namespace CardGames
         {
             if (e.KeyData == Keys.Enter)
             {
-                if (SendMessage("CHAT:ALL:" + txtMessage.Text))
+                if (SendMessage("CHAT:" + txtMessage.Text))
                     updateMsgLog("<" + clientName + "> " + txtMessage.Text);
 
                 txtMessage.Text = "";
                 txtMessage.Focus();
+                
+                e.Handled = true;
+        		e.SuppressKeyPress = true;
             }
         }
 
@@ -555,6 +558,7 @@ namespace CardGames
                             foreach (Player player in players)
                                 if (srcClientId == player.Id)
                                     updateMsgLog("<" + player.Name + "> " + parsedMsg[2]);
+                            		
                             break;
                         case "CLIENTID":
                             players.Clear();
@@ -659,15 +663,27 @@ namespace CardGames
                             	}
                             	
                             	dieBox[Index].Image = Dice.GetDiceImage(Convert.ToInt32(parsedMsg[2]));
+                            	updateMsgLog(players[DealerIndex].Name + " rolled a " + Convert.ToInt32(parsedMsg[2]) + ".");
+                            }
+                        	else if(GameType == Games.TradeIn)
+                            {
+                        		for(int i=0; i < dieBox.Length; i++)
+                            	{
+                        			if(dieBox[i].Image != null)
+                            		{
+                            			dieBox[i].Enabled = false;
+	                            		dieBox[i].Image = Dice.GetDiceImage(Convert.ToInt32(parsedMsg[2]));
+	                            		updateMsgLog(players[players.FindIndex(item => item.TableIndex == i)].Name + " rolled a " + Convert.ToInt32(parsedMsg[2]) + ".");
+                            		}
+                            	}
                             }
                             else
                             {
 	                            dieBox[players[DealerIndex].TableIndex].Image = Dice.GetDiceImage(Convert.ToInt32(parsedMsg[2]));
+	                            updateMsgLog(players[DealerIndex].Name + " rolled a " + Convert.ToInt32(parsedMsg[2]) + ".");
                             }
                             
                             diceFlag = false;
-                            
-                            updateMsgLog(players[DealerIndex].Name + " rolled a " + Convert.ToInt32(parsedMsg[2]) + ".");
                             break;
                         }
                         case "DICECHANGED":
@@ -688,6 +704,17 @@ namespace CardGames
                             	
                             	dieBox[Index].Enabled = false;
 	                            dieBox[Index].Image = Dice.GetDiceImage(Convert.ToInt32(parsedMsg[2]));
+                            }
+                            else if(GameType == Games.TradeIn)
+                            {
+                            	foreach(PictureBox p in dieBox)
+                            	{
+                            		if(p.Image != null)
+                            		{
+                            			p.Enabled = false;
+	                            		p.Image = Dice.GetDiceImage(Convert.ToInt32(parsedMsg[2]));
+                            		}
+                            	}
                             }
                             else
                             {
@@ -738,7 +765,7 @@ namespace CardGames
                         case "STATECHANGE":
                         {
                         	state = (States)Enum.Parse(typeof(States), parsedMsg[2]);
-                        	if(state > States.Startup)
+                        	/*if(state > States.Startup)
                         	{
                         		AnonymousDelegate a = delegate()
                                 {
@@ -752,7 +779,7 @@ namespace CardGames
                						}
                                 };
                             	this.Invoke(a, null);
-                        	}
+                        	}*/
                         	break;
                         }
                         case "DEALERUPDATE":
@@ -792,7 +819,7 @@ namespace CardGames
                         			
 								dieBox[0].Enabled = DealerIndex == clientIndex ? true : false;
                         	}
-                        	else if(state == States.Dealer || state == States.Game)
+                        	else
                         	{
                         		for(int i = 0; i < dieBox.Length; i++)
                         		{
@@ -824,9 +851,6 @@ namespace CardGames
                             	updateMsgLog("It is your turn.");
                             	
                             	SendToFront();
-                            	
-	                            //AnonymousDelegate a = () => EnableMyHand(true);
-	                        	//this.Invoke(a, null);
                             }
                             else
                             {
@@ -936,8 +960,6 @@ namespace CardGames
                         {
                         	myHandSide = (FacingSides)Enum.Parse(typeof(FacingSides), parsedMsg[2]);
                         	players[clientIndex].Hand.FacingSide = myHandSide;
-                        	AnonymousDelegate a = () => DisplayHand(players[clientIndex]);
-                        	this.Invoke(a, null);
                         	break;
                         }
                         case "SETOTHERHANDS":
@@ -949,8 +971,6 @@ namespace CardGames
                         		{
                         			players[clientIndex].Hand.FacingSide = otherHandSide;
                         		}
-                        		AnonymousDelegate a = () => DisplayHand(p);
-                        		this.Invoke(a, null);
                         	}
                         	break;
                         }
@@ -973,6 +993,7 @@ namespace CardGames
 	            				
                         		if(!b)
                         		{
+                        			ReadyBtn.Text = "Ready";
                         			foreach(Player p in players)
                         				((PlayerUserControl)panel3.Controls[FindPUCIndex(p)]).ShowReady = false;
                         		}
@@ -1118,6 +1139,29 @@ namespace CardGames
                             WinnerIndex = Convert.ToInt32(parsedMsg[2]);
                             break;
                         }
+                        case "ROLLTRADEIN":
+                        {
+                        	int Index = Convert.ToInt32(parsedMsg[2]);
+                        	
+                        	if(Index == clientIndex)
+                            {
+                            	updateMsgLog("It is your turn.");
+                            	
+                            	SendToFront();
+                            }
+                            else
+                            {
+                            	updateMsgLog("It is " + players[Index].Name + "'s turn.");
+                            }
+                        	
+                            for(int i = 0; i < dieBox.Length; i++)
+                            {
+                            	dieBox[i].Image = players[Index].TableIndex == i ? Dice.GetDiceImage(10) : null;
+                            }
+                            
+                            dieBox[0].Enabled = Index == clientIndex ? true : false;
+                            break;
+                        }
                         default:
                             break;
                     }
@@ -1234,7 +1278,7 @@ namespace CardGames
         		b.RotateFlip(RotateFlipType.Rotate90FlipNone);
         	}
         	
-        	b = (Bitmap)ImageHelper.ChangeImageOpacity(b, 0.82);
+        	//b = (Bitmap)ImageHelper.ChangeImageOpacity(b, 0.82);
         	dealBox[p.TableIndex].Image = b;
         }
         
@@ -1247,7 +1291,7 @@ namespace CardGames
         		b.RotateFlip(RotateFlipType.Rotate90FlipNone);
         	}
         	
-        	b = (Bitmap)ImageHelper.ChangeImageOpacity(b, 0.82);
+        	//b = (Bitmap)ImageHelper.ChangeImageOpacity(b, 0.82);
         	deckCardBox[p.TableIndex].Image = b;
         	deckCardBox[p.TableIndex].Visible = true;
         }
